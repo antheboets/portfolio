@@ -1,0 +1,36 @@
+body{
+    font-family: bombard;
+}
+.header{
+    background-color: #047dc4;
+    color: white;
+    display: flex;
+}
+.headerRight{
+    display: flex;
+    margin-left: auto;
+}
+.headerLeft{
+    display: flex;
+}
+/*
+.languePickerDropDown > ul{
+    list-style-type: none;
+    position: absolute;
+}
+*/
+.headerItem {
+    border: white solid 1px;
+    padding: 1rem;
+    margin: 0;
+    font-size: 1em;
+}
+/*
+.languePickerDropDown{
+    padding: 1rem;
+}
+*/
+.itemLink{
+    color: black;
+    text-decoration: none;     
+}
