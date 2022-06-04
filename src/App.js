@@ -9,7 +9,7 @@ function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310];
 
-  const [userData,setUserData] = React.useState({});
+  //const [userData,setUserData] = React.useState({});
   const [profileDataTest,setProfileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
   const [items, setItems] = React.useState([])
 
@@ -25,7 +25,7 @@ function  App() {
   React.useEffect(()=>{
     const test = async() =>{
       const profile = await fetchGithubProfile();
-      setUserData(profile);
+      //setUserData(profile);
       setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
     }
     const getRepos = async () => {
@@ -67,7 +67,6 @@ function  App() {
           delete obj.lang['id']
           data.push(obj)
         }
-       
       })
       setItems(data);
     }
@@ -77,7 +76,6 @@ function  App() {
 
   return (
     <div className="App">
-      {userData.bio}
       <Header profileData={profileDataTest}/>
       <MainContent data={items} />
       <Footer/>
