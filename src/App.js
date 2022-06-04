@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -35,16 +34,16 @@ function  App() {
         return fetch(item.languages_url).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
-        data.map((item)=>{
+        data.forEach((item)=>{
           const languageObj = {}
           languageObj.id = item.id
           let totalValue = 0
-          Object.keys(item.languageObj).map((key)=>{
+          Object.keys(item.languageObj).forEach((key)=>{
             totalValue += item.languageObj[key]
           })
           languageObj.totalValue = totalValue
           languageObj.list = []
-          Object.keys(item.languageObj).map((key)=>{
+          Object.keys(item.languageObj).forEach((key)=>{
             languageObj.list.push({name:key, value:item.languageObj[key], percent: Number(((item.languageObj[key]/totalValue) * 100).toFixed(2))})
           })
           obj[item.id] = languageObj
@@ -52,7 +51,7 @@ function  App() {
         return obj
       })
       let data = []
-      repos.map((item) =>{
+      repos.forEach((item) =>{
         let obj = {}
         if(!ignoreList.includes(item.id)){
           obj.id = item.id
