@@ -32,26 +32,26 @@ function  App() {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", Header:{accept:"application/vnd.github.v3+json"}})
       const repos = await res.json();
       const repoLanguageData = await Promise.all(repos.map((item) =>{
-        return fetch(item.languages_url).then((res)=>{return res.json()})
+        return fetch(item.languages_url).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
-        const obj = []
+        const obj = {}
         data.map((item)=>{
-          const languageObj = []
+          const languageObj = {}
+          languageObj.id = item.id
           let totalValue = 0
-          Object.keys(item).map((key)=>{
-            totalValue += item[key]
+          Object.keys(item.languageObj).map((key)=>{
+            totalValue += item.languageObj[key]
           })
           languageObj.totalValue = totalValue
-          Object.keys(item).map((key)=>{
-            languageObj.push({name:key, value:item[key], percent: totalValue/item[key] * 100})
+          languageObj.list = []
+          Object.keys(item.languageObj).map((key)=>{
+            languageObj.list.push({name:key, value:item.languageObj[key], percent: Number(((item.languageObj[key]/totalValue) * 100).toFixed(2))})
           })
-          obj.push(languageObj)
+          obj[item.id] = languageObj
         })
         return obj
       })
-
       let data = []
-      let iidk = 0
       repos.map((item) =>{
         let obj = {}
         if(!ignoreList.includes(item.id)){
@@ -63,13 +63,12 @@ function  App() {
           obj.site = {name:"github",icon:""}
           obj.commits = item.size
           obj.tags = item.topics
-          obj.lang = repoLanguageData[iidk]
-          iidk++
+          obj.lang = repoLanguageData[item.id]
+          delete obj.lang['id']
           data.push(obj)
         }
        
       })
-
       setItems(data);
     }
     test();
