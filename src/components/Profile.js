@@ -6,10 +6,10 @@ function Profile ({profileData}){
     const [currentData, setCurrentData] = React.useState(profileData[0]);
     const [currentPos, setCurrentPos] = React.useState(0);
 
-    console.log(profileData,profileData.length,profileData[1])
+    //console.log(profileData,profileData.length,profileData[1])
 
     React.useEffect(()=>{
-        console.log("profile update",profileData.length)
+        //console.log("profile update",profileData.length)
     },[profileData])
 
 
@@ -18,11 +18,11 @@ function Profile ({profileData}){
             if(profileData.length > 1){
                 if(currentPos < profileData.length -1){
                     setCurrentPos(currentPos + 1)
-                    console.log("a")
+                    //console.log("a")
                 }
                 else{
                     setCurrentPos(0)
-                    console.log("b")
+                    //console.log("b")
                 }
                 setCurrentData(profileData[currentPos])
             }
