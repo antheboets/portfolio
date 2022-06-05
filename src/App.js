@@ -7,7 +7,7 @@ import token from './token';
 
 function  App() {
 
-  const ignoreList = [225449624,231742306,169811023,488670310];
+  const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
   //const [userData,setUserData] = React.useState({});
   const [profileDataTest,setProfileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
