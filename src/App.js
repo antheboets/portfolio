@@ -79,9 +79,9 @@ function  App() {
           obj.name = formatString(item.name)
           obj.nameOrignal = item.name
           obj.link = item.html_url
-          obj.site = {name:"github",icon:""}
+          obj.site = {name:"Github",icon:""}
           obj.commits = repoCommitData[item.id]
-          obj.tags = item.topics
+          obj.topics = item.topics
           obj.lang = repoLanguageData[item.id]
           delete obj.lang['id']
           data.push(obj)
