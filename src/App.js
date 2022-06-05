@@ -3,6 +3,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import React from 'react';
+import token from './token';
 
 function  App() {
 
@@ -17,7 +18,7 @@ function  App() {
   }
 
   const fetchGithubProfile = async ()=>{
-    const res = await fetch("https://api.github.com/users/antheboets");
+    const res = await fetch("https://api.github.com/users/antheboets",{method:"GET",headers:{authorization:token,accept:"application/vnd.github.v3+json"}});
     return await res.json();
   }
 
@@ -28,10 +29,11 @@ function  App() {
       setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
     }
     const getRepos = async () => {
-      const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", Header:{accept:"application/vnd.github.v3+json"}})
+      const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}})
       const repos = await res.json();
+      //const repoCommitData = await Promise.all()
       const repoLanguageData = await Promise.all(repos.map((item) =>{
-        return fetch(item.languages_url).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
+        return fetch(item.languages_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
         data.forEach((item)=>{
@@ -60,7 +62,7 @@ function  App() {
           obj.nameOrignal = item.name
           obj.link = item.html_url
           obj.site = {name:"github",icon:""}
-          obj.commits = item.size
+          obj.commits = 0//item.size
           obj.tags = item.topics
           obj.lang = repoLanguageData[item.id]
           delete obj.lang['id']
