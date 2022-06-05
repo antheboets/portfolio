@@ -31,8 +31,24 @@ function  App() {
     const getRepos = async () => {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}})
       const repos = await res.json();
-      //const repoCommitData = await Promise.all()
-      const repoLanguageData = await Promise.all(repos.map((item) =>{
+      //extra user contributors
+      const repoCommitPromise = Promise.all(repos.map((item)=>{
+        return fetch(item.contributors_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
+      })).then((data)=>{
+        const obj = {}
+        data.forEach((item)=>{
+          const commitObj = {}
+          let commitCount = 0
+          console.log(item)
+          item.commitObj.forEach((commits)=>{
+            commitCount += commits.contributions
+          })
+          commitObj.commits = commitCount
+          obj[item.id] = commitObj
+        })
+        return obj
+      })
+      const repoLanguagePromise = Promise.all(repos.map((item) =>{
         return fetch(item.languages_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
@@ -52,6 +68,9 @@ function  App() {
         })
         return obj
       })
+      const dataFromExtraUrls = await Promise.all([repoCommitPromise,repoLanguagePromise])
+      const repoCommitData = dataFromExtraUrls[0]
+      const repoLanguageData = dataFromExtraUrls[1]
       let data = []
       repos.forEach((item) =>{
         let obj = {}
@@ -62,7 +81,7 @@ function  App() {
           obj.nameOrignal = item.name
           obj.link = item.html_url
           obj.site = {name:"github",icon:""}
-          obj.commits = 0//item.size
+          obj.commits = repoCommitData[item.id]
           obj.tags = item.topics
           obj.lang = repoLanguageData[item.id]
           delete obj.lang['id']
