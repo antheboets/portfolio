@@ -39,7 +39,6 @@ function  App() {
         data.forEach((item)=>{
           const commitObj = {}
           let commitCount = 0
-          console.log(item)
           item.commitObj.forEach((commits)=>{
             commitCount += commits.contributions
           })
