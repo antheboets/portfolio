@@ -31,6 +31,17 @@ function  App() {
     const getRepos = async () => {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}})
       const repos = await res.json();
+      const deleteIndexList = []
+      for(let i = repos.length - 1;i > 0; i--){
+        let deleteRepo = false
+        if(ignoreList.includes(repos[i].id)){
+          deleteRepo = true
+        }
+        if(deleteRepo){
+          deleteIndexList.push(i)
+        }
+      }
+      deleteIndexList.forEach((index)=>{repos.splice(index,1)})
       //extra user contributors
       const repoCommitPromise = Promise.all(repos.map((item)=>{
         return fetch(item.contributors_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
@@ -73,19 +84,17 @@ function  App() {
       let data = []
       repos.forEach((item) =>{
         let obj = {}
-        if(!ignoreList.includes(item.id)){
-          obj.id = item.id
-          obj.desc = item.description
-          obj.name = formatString(item.name)
-          obj.nameOrignal = item.name
-          obj.link = item.html_url
-          obj.site = {name:"Github",icon:""}
-          obj.commits = repoCommitData[item.id]
-          obj.topics = item.topics
-          obj.lang = repoLanguageData[item.id]
-          delete obj.lang['id']
-          data.push(obj)
-        }
+        obj.id = item.id
+        obj.desc = item.description
+        obj.name = formatString(item.name)
+        obj.nameOrignal = item.name
+        obj.link = item.html_url
+        obj.site = {name:"Github",icon:""}
+        obj.commits = repoCommitData[item.id]
+        obj.topics = item.topics
+        obj.lang = repoLanguageData[item.id]
+        delete obj.lang['id']
+        data.push(obj)
       })
       setItems(data);
     }
