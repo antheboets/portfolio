@@ -1,7 +1,7 @@
 import React from "react";
 import Tag from "./Tag";
 
-function TagList({languages, commits, site, link,topics}){
+function TagList({languages, commits, site, link,topics,archived}){
 
     //keys
     return (<div>
@@ -10,13 +10,15 @@ function TagList({languages, commits, site, link,topics}){
             <Tag key={`${link}${commits}`} text={`Commits ${commits}`}/>
             {languages.list.map((language)=>{return <Tag key={`${language.name}${language.value}`} text={`${language.name} ${language.percent}%`}/>})}
             {topics.map((topic)=>{return <Tag key={`${link}${topic}`} text={topic}/>})}
+            {archived && <Tag key={""} text="Archived"/> }
         </ul>
     </div>)
 }
 
 TagList.defaultProps = {
     languages: {list:[]},
-    topics: []
+    topics: [],
+    archived: false,
 }
 
 export default TagList;

@@ -92,6 +92,7 @@ function  App() {
         obj.site = {name:"Github",icon:""}
         obj.commits = repoCommitData[item.id]
         obj.topics = item.topics
+        obj.archived = item.archived
         obj.lang = repoLanguageData[item.id]
         delete obj.lang['id']
         data.push(obj)
