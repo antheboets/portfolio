@@ -34,3 +34,18 @@ body{
     color: black;
     text-decoration: none;     
 }
+ul{
+    list-style: outside none none;
+    padding-inline-start: 0px;
+}
+.itemList{
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+.mainContent{
+    padding: 5rem;
+}
+.repoItem{
+    padding: 2rem;
+}
