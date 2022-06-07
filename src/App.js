@@ -3,7 +3,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import React from 'react';
-import token from './token';
+import tokens from './tokens.js';
 
 function  App() {
 
@@ -18,7 +18,7 @@ function  App() {
   }
 
   const fetchGithubProfile = async ()=>{
-    const res = await fetch("https://api.github.com/users/antheboets",{method:"GET",headers:{authorization:token,accept:"application/vnd.github.v3+json"}});
+    const res = await fetch("https://api.github.com/users/antheboets",{method:"GET",headers:{authorization:tokens.githubAccessToken,accept:"application/vnd.github.v3+json"}});
     return await res.json();
   }
 
@@ -30,7 +30,7 @@ function  App() {
     }
     console.log()
     const getRepos = async () => {
-      const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}})
+      const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}})
       const repos = await res.json();
       const deleteIndexList = []
       for(let i = repos.length - 1;i > 0; i--){
@@ -45,7 +45,7 @@ function  App() {
       deleteIndexList.forEach((index)=>{repos.splice(index,1)})
       //extra user contributors
       const repoCommitPromise = Promise.all(repos.map((item)=>{
-        return fetch(item.contributors_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
+        return fetch(item.contributors_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}}).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
         data.forEach((item)=>{
@@ -60,7 +60,7 @@ function  App() {
         return obj
       })
       const repoLanguagePromise = Promise.all(repos.map((item) =>{
-        return fetch(item.languages_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}}).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
+        return fetch(item.languages_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}}).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
         data.forEach((item)=>{
