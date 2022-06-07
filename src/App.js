@@ -28,6 +28,7 @@ function  App() {
       //setUserData(profile);
       setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
     }
+    console.log()
     const getRepos = async () => {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:token}})
       const repos = await res.json();
