@@ -5,7 +5,7 @@ function TagList({languages, commits, site, link,topics,archived}){
 
     //keys
     return (<div>
-        <ul>
+        <ul className="tagList">
             {<Tag text={site.name} icon={site.icon}/>}
             <Tag key={`${link}${commits}`} text={`Commits ${commits}`}/>
             {languages.list.map((language)=>{return <Tag key={`${language.name}${language.value}`} text={`${language.name} ${language.percent}%`}/>})}

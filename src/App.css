@@ -49,3 +49,9 @@ ul{
 .repoItem{
     padding: 2rem;
 }
+.tagList{
+    display: flex;
+}
+.tag{
+    margin: 0.5rem;
+}
