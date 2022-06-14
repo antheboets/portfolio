@@ -7,6 +7,7 @@ function Profile ({profileData,seconds}){
     const [currentPos, setCurrentPos] = React.useState(0);
 
     React.useEffect(()=>{
+        console.log(profileData,"profile data updated")
     },[profileData])
 
 
