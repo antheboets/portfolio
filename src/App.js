@@ -21,12 +21,30 @@ function  App() {
     const res = await fetch("https://api.github.com/users/antheboets",{method:"GET",headers:{authorization:tokens.githubAccessToken,accept:"application/vnd.github.v3+json"}});
     return await res.json();
   }
+  const fetchYoutubeProfile = async() =>{
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=${"snippet%2CcontentDetails%2Cstatistics"}&id=${tokens.youtubeChannelId}&key=${tokens.googleApiKey}`,{methode:"GET",headers:{Accept:"application/json"}})
+    return await res.json();
+  }
+  const updateTest = (profile)=>{
+    //console.log(profile,profileDataTest,"updte func")
+    //setProfileData([...profileDataTest, profile])
+    profileDataTest.push(profile)
+  }
 
   React.useEffect(()=>{
     const test = async() =>{
       const profile = await fetchGithubProfile();
       //setUserData(profile);
-      setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
+      //console.log(profileDataTest,...profileDataTest,"git")
+      updateTest({avatarUrl:profile.avatar_url,bio:profile.bio})
+      //setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
+    }
+    const addYoutubeProfile = async()=>{
+      const profile = await fetchYoutubeProfile();
+      //console.log({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
+      //console.log(profileDataTest,...profileDataTest,"yt")
+      updateTest({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
+      //setProfileData([...profileDataTest, {avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description}])
     }
     console.log()
     const getRepos = async () => {
@@ -100,7 +118,9 @@ function  App() {
       })
       setItems(data);
     }
+    
     test();
+    addYoutubeProfile()
     getRepos();
   },[])
 
