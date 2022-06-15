@@ -9,8 +9,7 @@ function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
-  //const [userData,setUserData] = React.useState({});
-  const [profileDataTest,setProfileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
+  const [profileData,setProfileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
   const [items, setItems] = React.useState([])
 
   const formatString = (str) =>{
@@ -25,31 +24,22 @@ function  App() {
     const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=${"snippet%2CcontentDetails%2Cstatistics"}&id=${tokens.youtubeChannelId}&key=${tokens.googleApiKey}`,{methode:"GET",headers:{Accept:"application/json"}})
     return await res.json();
   }
-  const updateTest = (profile)=>{
-    //console.log(profile,profileDataTest,"updte func")
-    //setProfileData([...profileDataTest, profile])
-    profileDataTest.push(profile)
+  const addProfileToList = (profile)=>{
+    profileData.push(profile)
   }
 
   React.useEffect(()=>{
-    const test = async() =>{
-      const profile = await fetchGithubProfile();
-      //setUserData(profile);
-      //console.log(profileDataTest,...profileDataTest,"git")
-      updateTest({avatarUrl:profile.avatar_url,bio:profile.bio})
-      //setProfileData([...profileDataTest, {avatarUrl:profile.avatar_url,bio:profile.bio}])
+    const addGithubProfile = async() =>{
+      const profile = await fetchGithubProfile()
+      addProfileToList({avatarUrl:profile.avatar_url,bio:profile.bio})
     }
     const addYoutubeProfile = async()=>{
-      const profile = await fetchYoutubeProfile();
-      //console.log({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
-      //console.log(profileDataTest,...profileDataTest,"yt")
-      updateTest({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
-      //setProfileData([...profileDataTest, {avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description}])
+      const profile = await fetchYoutubeProfile()
+      addProfileToList({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
     }
-    console.log()
     const getRepos = async () => {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}})
-      const repos = await res.json();
+      const repos = await res.json()
       const deleteIndexList = []
       for(let i = repos.length - 1;i > 0; i--){
         let deleteRepo = false
@@ -116,17 +106,17 @@ function  App() {
         delete obj.lang['id']
         data.push(obj)
       })
-      setItems(data);
+      setItems(data)
     }
     
-    test();
+    addGithubProfile()
     addYoutubeProfile()
-    getRepos();
+    getRepos()
   },[])
 
   return (
     <div className="App">
-      <Header profileData={profileDataTest}/>
+      <Header profileData={profileData}/>
       <MainContent data={items} />
       <Footer/>
     </div>
