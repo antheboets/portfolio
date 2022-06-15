@@ -9,7 +9,7 @@ function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
-  const [profileData,setProfileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
+  const [profileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
   const [items, setItems] = React.useState([])
 
   const formatString = (str) =>{
@@ -108,7 +108,6 @@ function  App() {
       })
       setItems(data)
     }
-    
     addGithubProfile()
     addYoutubeProfile()
     getRepos()
@@ -123,4 +122,4 @@ function  App() {
   );
 }
 
-export default App;
+export default App
