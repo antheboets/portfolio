@@ -1,15 +1,15 @@
 import React from "react";
+import ProfileButtonList from "./ProfileButtonList";
 
 function Profile ({profileData,seconds}){
 
-
     const [currentData, setCurrentData] = React.useState(profileData[0]);
     const [currentPos, setCurrentPos] = React.useState(0);
+    const [activeTimer, setActiveTimer] = React.useState(true)
 
     React.useEffect(()=>{
         console.log(profileData,"profile data updated")
     },[profileData])
-
 
     React.useEffect(()=>{
         setTimeout(()=>{
@@ -25,11 +25,23 @@ function Profile ({profileData,seconds}){
         },1000 * seconds)
     })
 
-    return(<div>
+    const stopTimer = ()=>{
+        setActiveTimer(false)
+    }
+    const startTimer = ()=>{
+        setActiveTimer(true)
+    }
+
+    const setCurrentProfile = (profile)=>{
+        setCurrentData(profile)
+        //setCurrentPos()
+    }
+
+    return(<div onDoubleClick={startTimer}>
             <img src={currentData.avatarUrl}/>
             <p>{currentData.bio}</p>
             {currentPos} {profileData.length}
-            
+            <ProfileButtonList profileData={profileData} currentProfile={currentData} stopTimer={stopTimer} setCurrentProfile={setCurrentProfile} />
         </div>);
 }
 export default Profile;
