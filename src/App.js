@@ -9,7 +9,7 @@ function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
-  const [profileData] = React.useState([{avatarUrl:"s",bio:"sa"}]);
+  const [profileData] = React.useState([{avatarUrl:"s",bio:"sa",iconPath:"",iconAlt:"Portfolio",order:0}]);
   const [items, setItems] = React.useState([])
 
   const formatString = (str) =>{
@@ -26,16 +26,17 @@ function  App() {
   }
   const addProfileToList = (profile)=>{
     profileData.push(profile)
+    profileData.sort((a,b)=>{return a.order - b.order})
   }
 
   React.useEffect(()=>{
     const addGithubProfile = async() =>{
       const profile = await fetchGithubProfile()
-      addProfileToList({avatarUrl:profile.avatar_url,bio:profile.bio})
+      addProfileToList({avatarUrl:profile.avatar_url,bio:profile.bio,iconPath:"",iconAlt:"Github",order:1})
     }
     const addYoutubeProfile = async()=>{
       const profile = await fetchYoutubeProfile()
-      addProfileToList({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description})
+      addProfileToList({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description,iconPath:"",iconAlt:"Youtube",order:2})
     }
     const getRepos = async () => {
       const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}})
