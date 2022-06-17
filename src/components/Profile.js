@@ -20,10 +20,11 @@ function Profile ({profileData,seconds}){
                 else{
                     setCurrentPos(0)
                 }
+                console.log(activeTimer)
                 setCurrentData(profileData[currentPos])
-            }
+            }    
         },1000 * seconds)
-    })
+    },[currentPos,activeTimer])
 
     const stopTimer = ()=>{
         setActiveTimer(false)
@@ -42,6 +43,8 @@ function Profile ({profileData,seconds}){
             <p>{currentData.bio}</p>
             {currentPos} {profileData.length}
             <ProfileButtonList profileData={profileData} currentProfile={currentData} stopTimer={stopTimer} setCurrentProfile={setCurrentProfile} />
+            <button onClick={startTimer}>start</button>
+            <button onClick={stopTimer}>stop</button>
         </div>);
 }
 export default Profile;
