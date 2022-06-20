@@ -11,10 +11,16 @@ export function ProfileButtonList ({profileData,currentProfile,stopTimer,setCurr
         setCurrentProfile(profile)
     }
 
+    //maybe doest work
+    const clickActiveProfileButton = () =>{
+        stopTimer()
+    }
+
+
     return(<ul>
         {profileData.map((profile)=>{
             key++
-            return <ProfileButton key={`${profile.iconAlt}${key}`} active={currentProfile} icon={profile.iconPath} iconName={profile.iconAlt} onClick={()=>{clickProfileButton(profile)}}/> 
+            return <ProfileButton key={`${profile.iconAlt}${key}`} active={currentProfile === profileData[key]} icon={profile.iconPath} iconName={profile.iconAlt} clickActiveProfileButton={clickActiveProfileButton} onClick={()=>{clickProfileButton(profile)}}/> 
         })}</ul>)
 }
 
