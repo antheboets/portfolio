@@ -23,7 +23,6 @@ function Profile ({profileData,seconds}){
                     else{
                         setCurrentPos(0)
                     }
-                    console.log(activeTimer)
                     setCurrentData(profileData[currentPos])
                 }   
             },1000 * seconds)
