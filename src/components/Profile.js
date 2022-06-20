@@ -39,7 +39,11 @@ function Profile ({profileData,seconds}){
 
     const setCurrentProfile = (profile)=>{
         setCurrentData(profile)
-        //setCurrentPos()
+        for(let i = 0; i < profileData.length;i++){
+            if(profile === profileData[i]){
+                setCurrentPos(i)
+            }
+        }
     }
 
     return(<div onDoubleClick={startTimer}>
