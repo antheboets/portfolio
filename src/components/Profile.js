@@ -44,6 +44,10 @@ function Profile ({profileData,seconds}){
                 setCurrentPos(i)
             }
         }
+        if(currentData !== profileData[currentPos]){
+            setCurrentData(profileData[0])
+            setCurrentPos(0)
+        }
     }
 
     return(<div onDoubleClick={startTimer}>
