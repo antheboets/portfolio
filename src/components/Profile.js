@@ -48,8 +48,6 @@ function Profile ({profileData,seconds}){
             <p>{currentData.bio}</p>
             {currentPos} {profileData.length}
             <ProfileButtonList profileData={profileData} currentProfile={currentData} stopTimer={stopTimer} setCurrentProfile={setCurrentProfile} />
-            <button onClick={startTimer}>start</button>
-            <button onClick={stopTimer}>stop</button>
         </div>);
 }
 export default Profile;
