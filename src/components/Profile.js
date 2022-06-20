@@ -11,19 +11,24 @@ function Profile ({profileData,seconds}){
         console.log(profileData,"profile data updated")
     },[profileData])
 
+    //https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks
     React.useEffect(()=>{
-        setTimeout(()=>{
-            if(profileData.length > 1){
-                if(currentPos < profileData.length -1){
-                    setCurrentPos(currentPos + 1)
-                }
-                else{
-                    setCurrentPos(0)
-                }
-                console.log(activeTimer)
-                setCurrentData(profileData[currentPos])
-            }    
-        },1000 * seconds)
+        let interval = null
+        if(activeTimer){
+            interval = setInterval(()=>{
+                if(profileData.length > 1){
+                    if(currentPos < profileData.length -1){
+                        setCurrentPos(currentPos + 1)
+                    }
+                    else{
+                        setCurrentPos(0)
+                    }
+                    console.log(activeTimer)
+                    setCurrentData(profileData[currentPos])
+                }   
+            },1000 * seconds)
+        }
+        return () =>{ clearInterval(interval)}
     },[currentPos,activeTimer])
 
     const stopTimer = ()=>{
