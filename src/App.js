@@ -17,7 +17,7 @@ function  App() {
   }
 
   const fetchGithubProfile = async ()=>{
-    const res = await fetch(Data.fetchRequests.fetchGithubProfile.url,Data.fetchRequests.fetchGithubProfile.init);
+    const res = await fetch(Data.fetchRequests.fetchGithubProfile.resource,Data.fetchRequests.fetchGithubProfile.init);
     return await res.json();
   }
   const fetchYoutubeProfile = async() =>{
@@ -45,7 +45,7 @@ function  App() {
       addProfileToList(defaultProfile)
     }
     const getRepos = async () => {
-      const res = await fetch()
+      const res = await fetch(Data.fetchRequests.GithubRepos.resource,Data.fetchRequests.GithubRepos.init)
       const repos = await res.json()
       const deleteIndexList = []
       for(let i = repos.length - 1;i > 0; i--){
