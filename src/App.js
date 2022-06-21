@@ -4,12 +4,13 @@ import Header from './components/Header';
 import MainContent from './components/MainContent';
 import React from 'react';
 import tokens from './tokens.js';
+import Data from './Data.js';
 
 function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
-  const [profileData] = React.useState([{avatarUrl:"s",bio:"sa",iconPath:"",iconAlt:"Portfolio",order:0}]);
+  const [profileData] = React.useState([Data.Profiles.GithubProfile]);
   const [items, setItems] = React.useState([])
 
   const formatString = (str) =>{
@@ -17,11 +18,11 @@ function  App() {
   }
 
   const fetchGithubProfile = async ()=>{
-    const res = await fetch("https://api.github.com/users/antheboets",{method:"GET",headers:{authorization:tokens.githubAccessToken,accept:"application/vnd.github.v3+json"}});
+    const res = await fetch(Data.fetchRequests.fetchGithubProfile.url,Data.fetchRequests.fetchGithubProfile.init);
     return await res.json();
   }
   const fetchYoutubeProfile = async() =>{
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=${"snippet%2CcontentDetails%2Cstatistics"}&id=${tokens.youtubeChannelId}&key=${tokens.googleApiKey}`,{methode:"GET",headers:{Accept:"application/json"}})
+    const res = await fetch(Data.fetchRequests.fetchYoutubeProfile.resource,Data.fetchRequests.fetchYoutubeProfile.init)
     return await res.json();
   }
   const addProfileToList = (profile)=>{
@@ -31,15 +32,21 @@ function  App() {
 
   React.useEffect(()=>{
     const addGithubProfile = async() =>{
-      const profile = await fetchGithubProfile()
-      addProfileToList({avatarUrl:profile.avatar_url,bio:profile.bio,iconPath:"",iconAlt:"Github",order:1})
+      const profile = await fetchGithubProfile(Data.fetchRequests.GithubRepos.resource,Data.fetchRequests.GithubRepos.int)
+      const defaultProfile = Data.Profiles.GithubProfile
+      defaultProfile.avatarUrl = profile.avatar_url
+      defaultProfile.bio = profile.bio
+      addProfileToList(defaultProfile)
     }
     const addYoutubeProfile = async()=>{
       const profile = await fetchYoutubeProfile()
-      addProfileToList({avatarUrl:profile.items[0].snippet.thumbnails.high.url,bio:profile.items[0].snippet.localized.description,iconPath:"",iconAlt:"Youtube",order:2})
+      const defaultProfile = Data.Profiles.YoutubeProfile
+      defaultProfile.avatarUrl = profile.items[0].snippet.thumbnails.high.url
+      defaultProfile.bio = profile.items[0].snippet.localized.description
+      addProfileToList(defaultProfile)
     }
     const getRepos = async () => {
-      const res = await fetch("https://api.github.com/users/antheboets/repos?per_page=100&page=1",{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}})
+      const res = await fetch()
       const repos = await res.json()
       const deleteIndexList = []
       for(let i = repos.length - 1;i > 0; i--){
@@ -54,7 +61,7 @@ function  App() {
       deleteIndexList.forEach((index)=>{repos.splice(index,1)})
       //extra user contributors
       const repoCommitPromise = Promise.all(repos.map((item)=>{
-        return fetch(item.contributors_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}}).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
+        return fetch(item.contributors_url,Data.fetchRequests.GithubContributors.init).then(async (res)=>{return {id:item.id,commitObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
         data.forEach((item)=>{
@@ -69,7 +76,7 @@ function  App() {
         return obj
       })
       const repoLanguagePromise = Promise.all(repos.map((item) =>{
-        return fetch(item.languages_url,{method:"GET", headers:{accept:"application/vnd.github.v3+json",authorization:tokens.githubAccessToken}}).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
+        return fetch(item.languages_url,Data.fetchRequests.GithubLanguages.init).then(async (res)=>{return {id:item.id,languageObj:await res.json()}})
       })).then((data)=>{
         const obj = {}
         data.forEach((item)=>{
