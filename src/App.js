@@ -105,7 +105,7 @@ function  App() {
         obj.name = formatString(item.name)
         obj.nameOrignal = item.name
         obj.link = item.html_url
-        obj.site = {name:"Github",icon:"githubIcon.png"}
+        obj.site = Data.ReposSites.github
         obj.commits = repoCommitData[item.id]
         obj.topics = item.topics
         obj.archived = item.archived

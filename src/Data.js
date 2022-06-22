@@ -74,6 +74,12 @@ export const Data = {
                 }
             }
         }
+    },
+    ReposSites:{
+        github:{
+            name:"Github",
+            icon:"portfolio/github.png"
+        }
     }
 }
 export default Data
