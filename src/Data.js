@@ -5,21 +5,21 @@ export const Data = {
         PortfolioProfile:{
             avatarUrl:"",
             bio:"",
-            iconPath:"",
+            iconPath:"portfolio/briefcase.png",
             iconAlt:"Portfolio",
             order:0
         },
         YoutubeProfile:{
             avatarUrl:"",
             bio:"",
-            iconPath:"",
+            iconPath:"portfolio/youtube.png",
             iconAlt:"Youtube",
             order:2
         },
         GithubProfile:{
             avatarUrl:"",
             bio:"",
-            iconPath:"",
+            iconPath:"portfolio/github.png",
             iconAlt:"Github",
             order:1
         },
