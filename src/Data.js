@@ -1,5 +1,6 @@
 import tokens from "./tokens"
 
+//Profiles multi use met zelfde pointer
 export const Data = {
     Profiles:{
         PortfolioProfile:{
