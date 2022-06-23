@@ -9,7 +9,7 @@ function  App() {
 
   const ignoreList = [225449624,231742306,169811023,488670310,214025326,400524383,225458518];
 
-  const [profileData] = React.useState([Data.Profiles.PortfolioProfile]);
+  const [profileData] = React.useState([{avatarUrl:"",bio:"",iconPath:"portfolio/briefcase.png",iconAlt:"Portfolio",order:0}]);
   const [items, setItems] = React.useState([])
 
   const formatString = (str) =>{
@@ -32,14 +32,14 @@ function  App() {
   React.useEffect(()=>{
     const addGithubProfile = async() =>{
       const profile = await fetchGithubProfile(Data.fetchRequests.GithubRepos.resource,Data.fetchRequests.GithubRepos.int)
-      const defaultProfile = Data.Profiles.GithubProfile
+      const defaultProfile = {avatarUrl:"",bio:"",iconPath:"portfolio/github.png",iconAlt:"Github",order:1}
       defaultProfile.avatarUrl = profile.avatar_url
       defaultProfile.bio = profile.bio
       addProfileToList(defaultProfile)
     }
     const addYoutubeProfile = async()=>{
       const profile = await fetchYoutubeProfile()
-      const defaultProfile = Data.Profiles.YoutubeProfile
+      const defaultProfile = {avatarUrl:"",bio:"",iconPath:"portfolio/youtube.png",iconAlt:"Youtube",order:2}
       defaultProfile.avatarUrl = profile.items[0].snippet.thumbnails.high.url
       defaultProfile.bio = profile.items[0].snippet.localized.description
       addProfileToList(defaultProfile)

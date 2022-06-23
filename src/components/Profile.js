@@ -17,13 +17,15 @@ function Profile ({profileData,seconds}){
         if(activeTimer){
             interval = setInterval(()=>{
                 if(profileData.length > 1){
-                    if(currentPos < profileData.length -1){
+                    if(currentPos < profileData.length - 1){
+                        //plus one because currentPos doesnt update in this interval
                         setCurrentPos(currentPos + 1)
+                        setCurrentData(profileData[currentPos + 1])
                     }
                     else{
                         setCurrentPos(0)
+                        setCurrentData(profileData[0])
                     }
-                    setCurrentData(profileData[currentPos])
                 }   
             },1000 * seconds)
         }
@@ -44,10 +46,12 @@ function Profile ({profileData,seconds}){
                 setCurrentPos(i)
             }
         }
+        //maybe bad code
         if(currentData !== profileData[currentPos]){
             setCurrentData(profileData[0])
             setCurrentPos(0)
         }
+        
     }
 
     return(<div onDoubleClick={startTimer}>
