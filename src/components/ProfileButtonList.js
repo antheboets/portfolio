@@ -4,7 +4,7 @@ import ProfileButton from "./ProfileButton";
 export function ProfileButtonList ({profileData,currentProfile,stopTimer,setCurrentProfile}){
 
     //delete for key
-    let key = 0
+    let key = -1
 
     const clickProfileButton = (profile)=>{
         stopTimer()
@@ -17,7 +17,7 @@ export function ProfileButtonList ({profileData,currentProfile,stopTimer,setCurr
     }
 
 
-    return(<ul>
+    return(<ul className="profileButtonList">
         {profileData.map((profile)=>{
             key++
             return <ProfileButton key={`${profile.iconAlt}${key}`} active={currentProfile === profileData[key]} icon={profile.iconPath} iconName={profile.iconAlt} clickActiveProfileButton={clickActiveProfileButton} onClick={()=>{clickProfileButton(profile)}}/> 

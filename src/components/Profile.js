@@ -51,11 +51,10 @@ function Profile ({profileData,seconds}){
             setCurrentData(profileData[0])
             setCurrentPos(0)
         }
-        
     }
 
     return(<div onDoubleClick={startTimer}>
-            <img src={currentData.avatarUrl}/>
+            <img src={currentData.avatarUrl} height="200rem" width="200rem"/>
             <p>{currentData.bio}</p>
             {currentPos} {profileData.length}
             <ProfileButtonList profileData={profileData} currentProfile={currentData} stopTimer={stopTimer} setCurrentProfile={setCurrentProfile} />
