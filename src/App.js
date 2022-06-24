@@ -5,6 +5,7 @@ import Header from './components/Header';
 import MainContent from './components/MainContent';
 import React from 'react';
 import Data from './Data.js';
+import Contact from './components/Contact';
 
 function  App() {
 
@@ -123,9 +124,13 @@ function  App() {
 
   return (
     <div className="App">
-      <Header profileData={profileData}/>
-      <MainContent data={items} />
-      <Footer/>
+      <BrowserRouter>
+        <Header profileData={profileData}/>
+        <Routes>
+          <Route path='/portfolio' element={<MainContent data={items} />}/>
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
     </div>
   );
 }
