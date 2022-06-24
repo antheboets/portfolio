@@ -128,6 +128,7 @@ function  App() {
         <Header profileData={profileData}/>
         <Routes>
           <Route path='/portfolio' element={<MainContent data={items} />}/>
+          <Route path='/contact' element={<Contact/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>
